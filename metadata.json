@@ -1,0 +1,6 @@
+{
+  "name": "Scrapzone",
+  "description": "Uma réplica interativa e nostálgica do Scrapzone focada em criptografia e segurança moderna.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

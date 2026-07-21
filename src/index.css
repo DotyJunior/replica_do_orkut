@@ -1,0 +1,317 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Cinzel:wght@600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Marcellus+SC&family=MedievalSharp&family=Orbitron:wght@700&family=UnifrakturCook:wght@700&family=UnifrakturMaguntia&family=DotGothic16&family=Rubik+Pixels&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-gothic: "Cinzel Decorative", "Cormorant Garamond", serif;
+  --font-medieval: "MedievalSharp", serif;
+  --font-cursivo: "Dancing Script", "Great Vibes", cursive;
+  --font-cyber: "Orbitron", sans-serif;
+  --font-vaporwave: "Audiowide", "Syncopate", sans-serif;
+  --font-smallcaps: "Cinzel", "Marcellus SC", serif;
+  --font-comic: "Comic Sans MS", "Comic Sans", cursive;
+  --font-dotgothic: "DotGothic16", sans-serif;
+  --font-rubikpixels: "Rubik Pixels", sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #dee7f4;
+}
+
+.bg-checkerboard {
+  background-image: linear-gradient(45deg, #000000 25%, transparent 25%), 
+                    linear-gradient(-45deg, #000000 25%, transparent 25%), 
+                    linear-gradient(45deg, transparent 75%, #000000 75%), 
+                    linear-gradient(-45deg, transparent 75%, #000000 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  background-color: #262626;
+}
+
+.bg-emo-textured {
+  background-color: #e51f8a; 
+  background-image:
+    linear-gradient(45deg, #000 25%, transparent 25%), 
+    linear-gradient(-45deg, #000 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #000 75%), 
+    linear-gradient(-45deg, transparent 75%, #000 75%);
+  background-size: 60px 60px;
+  background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+}
+
+/* Custom fade animation for secure UI modules */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.anim-fade {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom shake animation for failed validation captcha alerts */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+/* Disable browser scrollbar visible UI tracks and arrows on mobile to enforce native swiping / sliding gestures */
+@media (max-width: 1024px) {
+  ::-webkit-scrollbar {
+    width: 0px !important;
+    height: 0px !important;
+    background: transparent !important;
+    display: none !important;
+  }
+  * {
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; /* IE 10+ */
+  }
+}
+
+/* Technological light blue pulsing neon banner/border */
+@keyframes blueNeonPulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(30, 198, 255, 0.4), inset 0 0 2px rgba(30, 198, 255, 0.25);
+    border-color: rgba(30, 198, 255, 0.85);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(30, 198, 255, 0.75), inset 0 0 4px rgba(30, 198, 255, 0.45);
+    border-color: rgba(30, 198, 255, 1);
+  }
+}
+
+.anim-blue-neon {
+  animation: blueNeonPulse 3s infinite ease-in-out;
+}
+
+/* Gotico Retro Custom Horizontal Scrollbar Styles */
+.gotico-retro-scrollbar {
+  scrollbar-color: #ad2fff rgba(23, 18, 33, 0.8);
+  scrollbar-width: thin;
+}
+
+.gotico-retro-scrollbar::-webkit-scrollbar {
+  height: 12px !important;
+}
+
+.gotico-retro-scrollbar::-webkit-scrollbar-track {
+  background-color: rgba(23, 18, 33, 0.8) !important;
+  border: 1px solid rgba(176, 141, 87, 0.3) !important;
+  border-radius: 6px !important;
+}
+
+.gotico-retro-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #ad2fff !important;
+  border-radius: 6px !important;
+  border: 2px solid rgba(23, 18, 33, 0.9) !important;
+  box-shadow: inset 0 0 4px rgba(173, 47, 255, 0.6) !important;
+}
+
+.gotico-retro-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #c05eff !important;
+}
+
+.gotico-retro-scrollbar::-webkit-scrollbar-button {
+  display: block !important;
+  width: 14px !important;
+  height: 12px !important;
+  background-color: #171221 !important;
+  border: 1px solid rgba(176, 141, 87, 0.4) !important;
+  border-radius: 3px !important;
+}
+
+/* Left Arrow button custom drawing */
+.gotico-retro-scrollbar::-webkit-scrollbar-button:single-button:decrement {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='12' viewBox='0 0 14 12'><path d='M9 3 L4 6 L9 9 Z' fill='%23ad2fff'/></svg>") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+/* Right Arrow button custom drawing */
+.gotico-retro-scrollbar::-webkit-scrollbar-button:single-button:increment {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='12' viewBox='0 0 14 12'><path d='M5 3 L10 6 L5 9 Z' fill='%23ad2fff'/></svg>") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+/* Custom Gothic Cursor class to hide native cursor */
+.custom-gothic-cursor-active,
+.custom-gothic-cursor-active * {
+  cursor: none !important;
+}
+
+@keyframes gothic-glow-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.25);
+    opacity: 1;
+  }
+}
+
+.gothic-glow-pulse-active {
+  animation: gothic-glow-pulse 1.6s ease-in-out infinite;
+}
+
+/* Custom Windows 95/98 Cursor */
+.minimal-oldweb-cursor-active,
+.minimal-oldweb-cursor-active * {
+  cursor: none !important;
+}
+
+/* Animated cyber neon border */
+@keyframes rotate-cyber {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.cyber-neon-border-container {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cyber-neon-border-container::before {
+  content: '';
+  position: absolute;
+  width: 180%;
+  height: 180%;
+  background: conic-gradient(from 0deg, #39ff14, #00ffcc, #10b981, #39ff14);
+  animation: rotate-cyber 3.5s linear infinite;
+  z-index: 0;
+}
+
+/* Cyberdeck Circuit Board Seamless Texture */
+.bg-cyberdeck-circuit {
+  background-color: #1c2214 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cg fill='none' stroke='%23324626' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' stroke-opacity='0.7'%3E%3Cpath d='M 0,30 L 75,30 L 105,60 L 195,60 L 225,30 L 300,30' /%3E%3Cpath d='M 30,0 L 30,60 L 60,90 L 60,165 L 90,195 L 180,195 L 210,225 L 210,300' /%3E%3Cpath d='M 0,240 L 60,240 L 90,270 L 195,270 L 225,240 L 300,240' /%3E%3Cpath d='M 270,0 L 270,75 L 240,105 L 240,165 L 270,195 L 270,300' /%3E%3Cpath d='M 165,60 L 187.5,82.5 L 187.5,142.5 L 210,165 L 232.5,165' /%3E%3Cpath d='M 75,120 L 142.5,120 L 165,142.5 L 165,180' /%3E%3Cpath d='M 0,150 L 45,150 L 67.5,172.5' /%3E%3Cpath d='M 225,150 L 277.5,150' /%3E%3C/g%3E%3Cg fill='%23121b0e' stroke='%233a5229' stroke-width='1.2' stroke-opacity='0.85'%3E%3Ccircle cx='75' cy='30' r='4' /%3E%3Ccircle cx='195' cy='60' r='4' /%3E%3Ccircle cx='225' cy='30' r='4' /%3E%3Ccircle cx='60' cy='90' r='4' /%3E%3Ccircle cx='90' cy='195' r='4' /%3E%3Ccircle cx='180' cy='195' r='4' /%3E%3Ccircle cx='210' cy='225' r='4' /%3E%3Ccircle cx='240' cy='105' r='4' /%3E%3Ccircle cx='270' cy='195' r='4' /%3E%3Ccircle cx='165' cy='60' r='4' /%3E%3Ccircle cx='187.5' cy='142.5' r='4' /%3E%3Ccircle cx='142.5' cy='120' r='4' /%3E%3Ccircle cx='165' cy='142.5' r='4' /%3E%3C/g%3E%3Cg fill='%2339ff14' fill-opacity='0.6' stroke='%2339ff14' stroke-opacity='0.9' stroke-width='0.5'%3E%3Ccircle cx='75' cy='30' r='1.5' /%3E%3Ccircle cx='180' cy='195' r='1.5' /%3E%3Ccircle cx='240' cy='105' r='1.5' /%3E%3Ccircle cx='142.5' cy='120' r='1.5' /%3E%3C/g%3E%3C/svg%3E");
+  background-size: 300px 300px;
+}
+
+/* Cyberdeck Social Menu Buttons & Hover Effects */
+.cyberdeck-btn {
+  background-color: #0c100a !important;
+  color: #4c6643 !important; /* Dim green/slate text */
+  border-bottom: 1px solid #1a2410 !important;
+  border-left: 4px solid transparent !important;
+  font-family: monospace !important;
+  text-transform: lowercase !important; /* matches "recados", "perfil" lowercase aesthetic from image */
+  font-weight: 500 !important;
+  letter-spacing: 0.05em;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cyberdeck-btn:hover,
+.cyberdeck-btn.active {
+  background-color: #1e2a14 !important; /* Greenish dark PCB highlight */
+  color: #39ff14 !important; /* Bright fluorescent green text */
+  border-left: 4px solid #39ff14 !important; /* Bright solid green left highlight trace */
+  box-shadow: inset 0 0 8px rgba(57, 255, 20, 0.15);
+}
+
+.cyberdeck-btn svg {
+  color: #4c6643 !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.cyberdeck-btn:hover svg,
+.cyberdeck-btn.active svg {
+  color: #39ff14 !important;
+}
+
+/* Adjust nested badges inside cyberdeck buttons */
+.cyberdeck-btn span.font-mono,
+.cyberdeck-btn span.font-bold {
+  background-color: #1c2a18 !important;
+  color: #39ff14 !important;
+  border: 1px solid #1a2410 !important;
+}
+
+/* Cyberdeck green monochrome monitor effect for friends pictures */
+.cyberdeck-friend-img {
+  filter: grayscale(100%) brightness(0.7) sepia(100%) hue-rotate(60deg) saturate(3) !important;
+  transition: filter 0.3s ease !important;
+}
+
+.group:hover .cyberdeck-friend-img,
+.theme-rock-underground {
+  --asfalto: #17130F;
+  --asfalto-claro: #1F1A15;
+  --couro: #2A2019;
+  --couro-claro: #34281F;
+  --ferrugem: #B54A1D;
+  --ferrugem-clara: #D15F28;
+  --gasolina: #D9A227;
+  --sangue: #8C1F1F;
+  --osso: #EDE3D0;
+  --osso-apagado: #CABFA9;
+  --cromo: #8B8A82;
+}
+
+.theme-rock-underground button.nav-button {
+  border: 1px solid #000;
+}
+
+.theme-rock-underground .rock-status-transparent {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.theme-rock-underground .profile-name,
+.theme-rock-underground .profile-nickname {
+  color: #ede3d0 !important;
+}
+
+.theme-rock-underground #meter-fans {
+  background-color: transparent !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.theme-rock-underground div#root:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > h2:nth-of-type(1) {
+  color: #ede3d0 !important;
+}
+
+.theme-rock-underground .rock-underground-widget {
+  border: 1px dashed var(--ferrugem) !important;
+}
+
+.theme-rock-underground .rock-underground-widget button {
+  color: #deda26 !important;
+}
+
+.theme-rock-underground .rock-underground-widget span:not(button span),
+.theme-rock-underground .rock-underground-widget h3 {
+  color: #deda26 !important;
+}
+
+.theme-rock-underground #btn-access-photos-visitor {
+  color: #101012 !important;
+}
+
+.theme-rock-underground div#root:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(4) > button#meter-fans:nth-of-type(1),
+.theme-rock-underground div#root:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(3),
+.theme-rock-underground div#root:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(2) > span:nth-of-type(1),
+.theme-rock-underground div#root:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(1) > span:nth-of-type(1) {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+
+
+
+
+
+

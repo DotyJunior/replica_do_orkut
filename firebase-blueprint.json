@@ -1,0 +1,469 @@
+{
+  "entities": {
+    "Profile": {
+      "title": "Profile",
+      "description": "User profile data including customizable settings",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "relationship": {
+          "type": "string"
+        },
+        "humor": {
+          "type": "string"
+        },
+        "hereFor": {
+          "type": "string"
+        },
+        "fashion": {
+          "type": "string"
+        },
+        "religion": {
+          "type": "string"
+        },
+        "ethnicity": {
+          "type": "string"
+        },
+        "languages": {
+          "type": "string"
+        },
+        "hometown": {
+          "type": "string"
+        },
+        "webpage": {
+          "type": "string"
+        },
+        "passions": {
+          "type": "string"
+        },
+        "aboutMe": {
+          "type": "string"
+        },
+        "trusty": {
+          "type": "integer"
+        },
+        "cool": {
+          "type": "integer"
+        },
+        "sexy": {
+          "type": "integer"
+        },
+        "fans": {
+          "type": "integer"
+        },
+        "username": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string"
+        },
+        "statusOnline": {
+          "type": "string"
+        },
+        "listeningNow": {
+          "type": "object",
+          "description": "Active song details being listened to right now (Ouvindo Agora status)"
+        },
+        "lastPlayedMusic": {
+          "type": "object",
+          "description": "Metadata of the last played song"
+        },
+        "premiumStatus": {
+          "type": "string",
+          "enum": ["free", "pro"],
+          "description": "User plan type (free or pro)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "avatar"
+      ]
+    },
+    "PrivateProfile": {
+      "title": "PrivateProfile",
+      "description": "Private profile information containing PII and verification parameters",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "emailCode": {
+          "type": "string"
+        },
+        "emailCodeExpiresAt": {
+          "type": "integer"
+        },
+        "emailCodeAttempts": {
+          "type": "integer"
+        },
+        "emailCodeResendsCount": {
+          "type": "integer"
+        },
+        "emailCodeLastSentAt": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "email"
+      ]
+    },
+    "Scrap": {
+      "title": "Scrap",
+      "description": "Scrapbook entry representing public messages from other users",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "fromId": {
+          "type": "string"
+        },
+        "fromName": {
+          "type": "string"
+        },
+        "fromAvatar": {
+          "type": "string"
+        },
+        "toId": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "rawContent": {
+          "type": "string"
+        },
+        "isEncrypted": {
+          "type": "boolean"
+        },
+        "likes": {
+          "type": "integer"
+        },
+        "likedByMe": {
+          "type": "boolean"
+        },
+        "sharesCount": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "fromId",
+        "fromName",
+        "toId",
+        "rawContent",
+        "isEncrypted"
+      ]
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "Nostalgic testimonial entry, optionally encrypted",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "fromId": {
+          "type": "string"
+        },
+        "fromName": {
+          "type": "string"
+        },
+        "fromAvatar": {
+          "type": "string"
+        },
+        "toId": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "isEncrypted": {
+          "type": "boolean"
+        },
+        "unlocked": {
+          "type": "boolean"
+        },
+        "ciphertext": {
+          "type": "string"
+        },
+        "aesKeyHex": {
+          "type": "string"
+        },
+        "likes": {
+          "type": "integer"
+        },
+        "likedByMe": {
+          "type": "boolean"
+        },
+        "sharesCount": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "fromId",
+        "fromName",
+        "toId",
+        "content",
+        "isEncrypted"
+      ]
+    },
+    "JoinedCommunity": {
+      "title": "JoinedCommunity",
+      "description": "List of communities joined by a user",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "communityIds": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "userId",
+        "communityIds"
+      ]
+    },
+    "Album": {
+      "title": "Album",
+      "description": "User photo album containing multiple photo items",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "profileId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string"
+        },
+        "photos": {
+          "type": "array"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "profileId",
+        "name",
+        "photos"
+      ]
+    },
+    "SharedMemory": {
+      "title": "SharedMemory",
+      "description": "Milestones shared to the nostalgic feeds",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "sharerName": {
+          "type": "string"
+        },
+        "sharerAvatar": {
+          "type": "string"
+        },
+        "itemType": {
+          "type": "string"
+        },
+        "itemTitle": {
+          "type": "string"
+        },
+        "targetUser": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "likes": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "sharerName",
+        "itemType",
+        "itemTitle",
+        "timestamp",
+        "likes"
+      ]
+    },
+    "Community": {
+      "title": "Community",
+      "description": "A classic Orkut-style community",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "members": { "type": "integer" },
+        "avatar": { "type": "string" },
+        "category": { "type": "string" },
+        "language": { "type": "string" },
+        "type": { "type": "string" },
+        "secureMode": { "type": "boolean" },
+        "ownerId": { "type": "string" },
+        "moderators": { "type": "array" },
+        "bannedMembers": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "rules": { "type": "string" }
+      },
+      "required": ["id", "name", "ownerId"]
+    },
+    "CommunityTopic": {
+      "title": "CommunityTopic",
+      "description": "A discussion topic thread inside a community",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "communityId": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorAvatar": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "views": { "type": "integer" },
+        "repliesCount": { "type": "integer" },
+        "isPinned": { "type": "boolean" },
+        "isLocked": { "type": "boolean" },
+        "isApproved": { "type": "boolean" }
+      },
+      "required": ["id", "communityId", "title", "content", "authorId"]
+    },
+    "CommunityReply": {
+      "title": "CommunityReply",
+      "description": "A response posted to a topic discussion thread",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "topicId": { "type": "string" },
+        "communityId": { "type": "string" },
+        "content": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorAvatar": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "likes": { "type": "integer" },
+        "likedBy": { "type": "array" },
+        "isApproved": { "type": "boolean" }
+      },
+      "required": ["id", "topicId", "communityId", "content", "authorId"]
+    },
+    "FriendRequest": {
+      "title": "FriendRequest",
+      "description": "Friend connection requests between users of Scrapzone",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "senderId": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "rejected"] },
+        "createdAt": { "type": "integer" }
+      },
+      "required": ["id", "senderId", "receiverId", "status", "createdAt"]
+    },
+    "SharedPhoto": {
+      "title": "SharedPhoto",
+      "description": "Private photo shared between friends",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "photoId": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "albumId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "viewed": { "type": "boolean" }
+      },
+      "required": ["id", "photoId", "senderId", "receiverId", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/profiles/{profileId}": {
+      "schema": "Profile",
+      "description": "User profiles indexed by profile ID"
+    },
+    "/private_profiles/{userId}": {
+      "schema": "PrivateProfile",
+      "description": "Private user configurations including PII and verification parameters"
+    },
+    "/scraps/{scrapId}": {
+      "schema": "Scrap",
+      "description": "All public scrapbook entries"
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": "Testimonial",
+      "description": "All public/private testimonials"
+    },
+    "/joined_communities/{userId}": {
+      "schema": "JoinedCommunity",
+      "description": "Document containing communityIds joined by a particular user"
+    },
+    "/albums/{albumId}": {
+      "schema": "Album",
+      "description": "User photo albums"
+    },
+    "/shared_memories/{memoryId}": {
+      "schema": "SharedMemory",
+      "description": "Feeds of shared memories"
+    },
+    "/communities/{communityId}": {
+      "schema": "Community",
+      "description": "The community details block"
+    },
+    "/community_topics/{topicId}": {
+      "schema": "CommunityTopic",
+      "description": "Discussion threads within communities"
+    },
+    "/community_replies/{replyId}": {
+      "schema": "CommunityReply",
+      "description": "Comments in response to threads"
+    },
+    "/friend_requests/{requestId}": {
+      "schema": "FriendRequest",
+      "description": "All friendship connection states and pending requests"
+    },
+    "/shared_photos/{shareId}": {
+      "schema": "SharedPhoto",
+      "description": "Photos shared privately between friends"
+    }
+  }
+}

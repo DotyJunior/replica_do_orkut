@@ -1,0 +1,210 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Catch-all safety fallback
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions for safe rules evaluation
+    function isAuthenticated() {
+      return request.auth != null && request.auth.uid != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Profiles Collection
+    match /profiles/{profileId} {
+      allow read: if true;
+      allow create, update: if profileId != null && profileId.size() <= 128 && (isOwner(profileId) || (request.resource.data.id == profileId));
+      allow delete: if false;
+    }
+
+    // Private Profiles Collection (PII & emailCode isolation)
+    match /private_profiles/{userId} {
+      allow read, write: if userId != null && userId.size() <= 128 && isOwner(userId);
+    }
+
+    // Scraps Collection
+    match /scraps/{scrapId} {
+      allow read: if true;
+      allow create: if scrapId != null && scrapId.size() <= 128 && (
+        (isAuthenticated() && request.resource.data.fromId == request.auth.uid) ||
+        (request.auth == null)
+      );
+      allow update: if scrapId != null && scrapId.size() <= 128 && (
+        (request.resource.data.likes == resource.data.likes + 1) || 
+        (isAuthenticated() && resource.data.fromId == request.auth.uid) ||
+        (request.auth == null)
+      );
+      // Delete allowed by scrap creator (fromId) or recipient (toId), or guest offline test
+      allow delete: if (isAuthenticated() && (resource.data.fromId == request.auth.uid || resource.data.toId == request.auth.uid)) || (request.auth == null);
+    }
+
+    // Testimonials Collection
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow create: if testimonialId != null && testimonialId.size() <= 128 && (
+        (isAuthenticated() && request.resource.data.fromId == request.auth.uid) ||
+        (request.auth == null)
+      );
+      allow update: if testimonialId != null && testimonialId.size() <= 128 && (
+        (request.resource.data.likes == resource.data.likes + 1) || 
+        (isAuthenticated() && resource.data.fromId == request.auth.uid) ||
+        (request.auth == null)
+      );
+      allow delete: if (isAuthenticated() && (resource.data.fromId == request.auth.uid || resource.data.toId == request.auth.uid)) || (request.auth == null);
+    }
+
+    // Joined Communities Collection
+    match /joined_communities/{userId} {
+      allow read, write: if true;
+    }
+
+    // Albums Collection
+    match /albums/{albumId} {
+      allow read: if true;
+      allow create: if albumId != null && albumId.size() <= 128 && (
+        (isAuthenticated() && request.resource.data.profileId == request.auth.uid) ||
+        (request.auth == null)
+      );
+      allow update: if albumId != null && albumId.size() <= 128 && (
+        (isAuthenticated() && resource.data.profileId == request.auth.uid) ||
+        (request.auth == null)
+      );
+      allow delete: if (isAuthenticated() && resource.data.profileId == request.auth.uid) || (request.auth == null);
+    }
+
+    // Shared memories Collection
+    match /shared_memories/{memoryId} {
+      allow read: if true;
+      allow create: if memoryId != null && memoryId.size() <= 128 && (
+        (isAuthenticated() && request.resource.data.fromId == request.auth.uid) ||
+        (request.auth == null)
+      );
+      allow update: if memoryId != null && memoryId.size() <= 128 && (
+        (isAuthenticated() && resource.data.fromId == request.auth.uid) ||
+        (request.auth == null)
+      );
+      allow delete: if (isAuthenticated() && resource.data.fromId == request.auth.uid) || (request.auth == null);
+    }
+
+    // Communities Collection
+    match /communities/{communityId} {
+      allow read: if true;
+      allow create: if communityId != null && (
+        (isAuthenticated() && request.resource.data.ownerId == request.auth.uid) ||
+        (request.auth == null)
+      );
+      allow update: if (isAuthenticated() && (
+        // Action: standard user joins/leaves
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members'])) ||
+        // Action: owner edits community details, moderators, or bans/unbans members
+        (resource.data.ownerId == request.auth.uid) ||
+        // Action: moderators can ban/unban members and manage members list
+        (resource.data.moderators.hasAny([request.auth.uid]) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['bannedMembers', 'moderators', 'members']))
+      )) || (request.auth == null);
+      allow delete: if (isAuthenticated() && resource.data.ownerId == request.auth.uid) || (request.auth == null);
+    }
+
+    // Community Topics Collection
+    match /community_topics/{topicId} {
+      allow read: if true;
+      allow create: if topicId != null && isAuthenticated() && request.resource.data.authorId == request.auth.uid;
+      allow update: if isAuthenticated() && (
+        resource.data.authorId == request.auth.uid ||
+        // Owner of the community has full control
+        get(/databases/$(database)/documents/communities/$(resource.data.communityId)).data.ownerId == request.auth.uid ||
+        // Moderator of the community can pin/lock/approve/delete
+        get(/databases/$(database)/documents/communities/$(resource.data.communityId)).data.moderators.hasAny([request.auth.uid])
+      );
+      allow delete: if isAuthenticated() && (
+        resource.data.authorId == request.auth.uid ||
+        get(/databases/$(database)/documents/communities/$(resource.data.communityId)).data.ownerId == request.auth.uid ||
+        get(/databases/$(database)/documents/communities/$(resource.data.communityId)).data.moderators.hasAny([request.auth.uid])
+      );
+    }
+
+    // Community Replies Collection
+    match /community_replies/{replyId} {
+      allow read: if true;
+      allow create: if replyId != null && isAuthenticated() && request.resource.data.authorId == request.auth.uid;
+      allow update: if isAuthenticated() && (
+        resource.data.authorId == request.auth.uid ||
+        // Anyone is allowed to increments likes
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes', 'likedBy']) ||
+        get(/databases/$(database)/documents/communities/$(resource.data.communityId)).data.ownerId == request.auth.uid ||
+        get(/databases/$(database)/documents/communities/$(resource.data.communityId)).data.moderators.hasAny([request.auth.uid])
+      );
+      allow delete: if isAuthenticated() && (
+        resource.data.authorId == request.auth.uid ||
+        get(/databases/$(database)/documents/communities/$(resource.data.communityId)).data.ownerId == request.auth.uid ||
+        get(/databases/$(database)/documents/communities/$(resource.data.communityId)).data.moderators.hasAny([request.auth.uid])
+      );
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if isOwner(userId);
+    }
+
+    // Photos Collection
+    match /photos/{photoId} {
+      allow read: if true;
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    // Friend Requests Collection (legacy fallback)
+    match /friend_requests/{requestId} {
+      allow read: if true;
+      allow create, update, delete: if true;
+    }
+
+    // Shared Photos Collection
+    match /shared_photos/{shareId} {
+      allow read: if !isAuthenticated() || (
+        resource.data.senderId == request.auth.uid || 
+        resource.data.receiverId == request.auth.uid
+      );
+      allow create: if shareId != null && shareId.size() <= 128 && (
+        (isAuthenticated() && request.resource.data.senderId == request.auth.uid) ||
+        (request.auth == null)
+      );
+      allow update: if shareId != null && shareId.size() <= 128 && (
+        (isAuthenticated() && (resource.data.senderId == request.auth.uid || resource.data.receiverId == request.auth.uid)) ||
+        (request.auth == null)
+      );
+      allow delete: if (isAuthenticated() && (resource.data.senderId == request.auth.uid || resource.data.receiverId == request.auth.uid)) || (request.auth == null);
+    }
+
+    // Conversations & Messages Subcollection for Private Secret Chat (Expired in 48h)
+    match /conversations/{conversationId} {
+      allow read, write: if (
+        request.auth != null && conversationId.matches('(^|_)' + request.auth.uid + '(_|$)')
+      ) || (
+        request.auth == null && conversationId.matches('(^|_)me(_|$)')
+      );
+
+      match /messages/{messageId} {
+        allow read, write: if (
+          request.auth != null && conversationId.matches('(^|_)' + request.auth.uid + '(_|$)')
+        ) || (
+          request.auth == null && conversationId.matches('(^|_)me(_|$)')
+        );
+      }
+    }
+
+    // Community Requests & Notifications for admission control
+    match /community_requests/{requestId} {
+      allow read, write: if true;
+    }
+
+    match /community_notifications/{notificationId} {
+      allow read, write: if true;
+    }
+  }
+}
